@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090d18">
+<title>Carlos Play Recargas</title>
+<style>
+:root{--bg:#080c16;--surface:#111827;--line:#29364e;--text:#f5f7ff;--muted:#9ba8bf;--mint:#23dfbd;--purple:#7655f5}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:85px}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Arial,sans-serif}button,input,select{font:inherit}a{color:inherit;text-decoration:none}.container{width:min(1120px,92%);margin:auto}
+header{position:sticky;top:0;z-index:10;background:#090e19ee;border-bottom:1px solid #263149;backdrop-filter:blur(12px)}.nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:950;letter-spacing:.4px;display:flex;align-items:center;gap:9px}.brand-mark{background:linear-gradient(140deg,var(--purple),var(--mint));padding:10px;border-radius:12px}.brand span:last-child span{color:var(--mint)}.links,.nav-actions{display:flex;align-items:center;gap:12px}.links{font-size:13px;color:#bac4d6}.btn{border:0;border-radius:11px;padding:11px 15px;background:linear-gradient(105deg,var(--purple),#3986ed,var(--mint));color:white;font-weight:800;cursor:pointer;display:inline-flex;justify-content:center;align-items:center;gap:7px}.btn.outline{background:#141d30;border:1px solid var(--line)}.btn.small{font-size:12px;padding:9px 11px}.btn:disabled{opacity:.6;cursor:not-allowed}
+.hero{padding:65px 0;background:radial-gradient(ellipse at 80% 30%,#214b6a66,transparent 40%),radial-gradient(ellipse at 15% 20%,#6544b344,transparent 40%)}.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:35px;align-items:center}.eyebrow{display:inline-block;color:var(--mint);font-size:12px;font-weight:900;letter-spacing:1.4px;background:#20dcb51a;border:1px solid #20dcb54a;padding:8px 12px;border-radius:30px}.hero h1{font-size:clamp(38px,6vw,65px);line-height:1.04;letter-spacing:-1.5px;margin:18px 0}.gradient{background:linear-gradient(90deg,#b7c5ff,#65e9d1);-webkit-background-clip:text;background-clip:text;color:transparent}.hero p,.section-head p{color:var(--muted);line-height:1.7}.hero-buttons,.trust{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.trust{font-size:13px;color:#c2cce0}.trust span:before{content:"✓ ";color:var(--mint)}.hero-art{min-height:280px;border:1px solid #34435e;border-radius:27px;background:linear-gradient(145deg,#1a2b48,#101727);display:grid;place-items:center;position:relative;overflow:hidden}.orb{position:absolute;width:220px;height:220px;border-radius:50%;background:linear-gradient(135deg,#20dfbd,#7655f5);opacity:.25}.diamond{font-size:105px;position:relative;filter:drop-shadow(0 12px 22px #23dfbd66)}.art-caption{position:absolute;bottom:20px;font-weight:900;letter-spacing:2px;font-size:12px}
+section{padding:58px 0}.catalog{background:linear-gradient(180deg,#0c1220,#090d18)}.section-head{text-align:center;max-width:700px;margin:0 auto 28px}.section-head h2{font-size:clamp(27px,4vw,38px);margin:12px 0 8px}.toolbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}.filters{display:flex;gap:8px;flex-wrap:wrap}.filter{background:#151e30;color:#b9c4d8;border:1px solid var(--line);padding:9px 13px;border-radius:25px;cursor:pointer}.filter.active{background:#1a4a4a;color:var(--mint);border-color:#20dcb577}.search{background:#121b2d;border:1px solid var(--line);border-radius:10px;color:white;padding:10px 13px;min-width:200px}.products{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.product,.benefit,.step,.pay,.faq details{background:linear-gradient(145deg,#172136,#111827);border:1px solid var(--line);border-radius:16px;padding:18px}.product-head{display:flex;gap:12px;align-items:center}.product-icon{width:52px;height:52px;border-radius:14px;background:#164a61;display:grid;place-items:center;font-size:27px}.product h3{font-size:16px;margin:0 0 4px}.product small,.product-sub{color:var(--muted)}.product-price{text-align:center;color:var(--mint);font-size:19px;font-weight:900;margin:16px 0 3px}.product-sub{text-align:center;font-size:12px;margin-bottom:13px}.product .btn{width:100%}.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:30px}.benefits,.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.benefit h3,.step h3{margin:10px 0 6px}.benefit p,.step p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}.pay-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.pay{text-align:center;font-weight:800}.pay span{display:block;font-size:26px;margin-bottom:7px}.faq{max-width:800px;margin:auto}.faq details{margin:10px 0}.faq summary{font-weight:800;cursor:pointer}.faq p{color:var(--muted);line-height:1.6}.contact-box{padding:26px;border-radius:20px;background:linear-gradient(110deg,#202e52,#12483f);border:1px solid #3b6a75;display:flex;justify-content:space-between;align-items:center;gap:20px}.contact-box h2{margin:0 0 7px}.contact-box p{margin:0;color:#c3d0e2}footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.legal{margin-top:16px;padding-top:14px;border-top:1px solid #202a3d;line-height:1.6}
+.modal{position:fixed;inset:0;z-index:30;background:#030712df;display:none;align-items:center;justify-content:center;padding:15px;overflow:auto}.modal.show{display:flex}.dialog{width:min(450px,100%);max-height:94vh;overflow:auto;background:#121b2c;border:1px solid #35415a;border-radius:20px;padding:23px;position:relative}.close{position:absolute;right:13px;top:9px;background:none;border:0;color:#aab6ca;font-size:26px;cursor:pointer}.dialog h2{margin:8px 0}.dialog>p{color:var(--muted);font-size:13px;line-height:1.5}.tabs{display:flex;background:#0b1220;border-radius:10px;padding:4px;margin:17px 0}.tabs button{flex:1;padding:10px;border:0;border-radius:8px;background:transparent;color:#9eabc1;cursor:pointer;font-weight:800}.tabs button.active{background:#25334e;color:white}.field{display:block;margin:12px 0;color:#c8d2e3;font-size:13px;font-weight:700}.field input,.field select{display:block;width:100%;margin-top:7px;padding:12px;border:1px solid #34415a;background:#0c1423;border-radius:10px;color:white}.message{font-size:13px;color:var(--mint);min-height:20px;margin:10px 0;line-height:1.5}.message.error{color:#ff9b9b}.note{font-size:11px!important;color:#8f9cb2!important}.order-card{padding:12px;margin:9px 0;background:#0c1423;border:1px solid var(--line);border-radius:11px}.order-card small{display:block;color:var(--muted);margin-top:5px}
+@media(max-width:850px){.links{display:none}.hero-grid{grid-template-columns:1fr}.hero-art{min-height:220px}.products{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.nav{padding:10px 0;align-items:flex-start}.brand{font-size:12px}.nav-actions{gap:5px;justify-content:flex-end;flex-wrap:wrap}.nav-actions .btn{font-size:10px;padding:8px}.hero{padding:45px 0}.products,.benefits,.steps{grid-template-columns:1fr}.pay-grid{grid-template-columns:repeat(2,1fr)}.contact-box{align-items:flex-start;flex-direction:column}.search{width:100%}}
+[hidden] {
+  display: none !important;
+}
+</style>
+</head>
+<body>
+<header><div class="container nav">
+<a class="brand" href="#inicio"><span class="brand-mark">💎</span><span>CARLOS <span>PLAY</span> RECARGAS</span></a>
+<nav class="links"><a href="#inicio">Inicio</a><a href="#catalogo">Catálogo</a><a href="#ventajas">Ventajas</a><a href="#pagos">Pagos</a><a href="#ayuda">Ayuda</a></nav>
+<div class="nav-actions"><button class="btn outline small" id="ordersButton" hidden type="button">Mis pedidos</button><button class="btn outline small" id="loginButton" type="button">Iniciar sesión</button><button class="btn small" id="registerButton" type="button">Crear cuenta</button><button class="btn outline small" id="logoutButton" hidden type="button">Salir</button></div>
+</div></header>
+<main>
+<section class="hero" id="inicio"><div class="container hero-grid"><div><span class="eyebrow">⚡ TU TIENDA GAMER</span><h1>Recarga y vuelve<br>a la <span class="gradient">acción.</span></h1><p>Bienvenido a Carlos Play Recargas . Explora productos de Free Fire, consulta disponibilidad y solicita tu pedido fácilmente.</p><div class="hero-buttons"><a class="btn" href="#catalogo">💎 Explorar catálogo</a><button class="btn outline" id="heroRegister" type="button">Crear mi cuenta →</button></div><div class="trust"><span>Atención personalizada</span><span>Pedidos por WhatsApp</span><span>Diseño móvil</span></div></div><div class="hero-art"><div class="orb"></div><div class="diamond">💎</div><div class="art-caption">CARLOS PLAY • RECARGAS GAMER</div></div></div></section>
+<section class="catalog" id="catalogo"><div class="container"><div class="section-head"><span class="eyebrow">FREE FIRE LATAM</span><h2>Catálogo de <span class="gradient">productos</span></h2><p>Elige tu paquete. El precio y la disponibilidad se confirman antes del pago.</p></div><div class="toolbar"><div class="filters"><button class="filter active" data-filter="todos" type="button">Todos</button><button class="filter" data-filter="diamantes" type="button">Diamantes</button><button class="filter" data-filter="membresias" type="button">Membresías</button><button class="filter" data-filter="extras" type="button">Pases</button></div><input class="search" id="search" placeholder="Buscar producto..." aria-label="Buscar producto"></div><div class="products" id="products"><div class="empty">Cargando catálogo…</div></div><div class="legal">🔒 Para recargas por ID solo comparte tu ID de jugador. Nunca compartas tu contraseña ni códigos de verificación.</div></div></section>
+<section id="ventajas"><div class="container"><div class="section-head"><span class="eyebrow">¿POR QUÉ CARLOS PLAY?</span><h2>Una experiencia <span class="gradient">más sencilla</span></h2><p>Información clara y contacto directo para que sepas cómo continuar.</p></div><div class="benefits"><article class="benefit"><div>⚡</div><h3>Atención directa</h3><p>Consulta precio, disponibilidad y entrega antes de confirmar.</p></article><article class="benefit"><div>🛡️</div><h3>Compra informada</h3><p>Confirma todos los detalles antes de realizar cualquier pago.</p></article><article class="benefit"><div>📱</div><h3>Desde tu móvil</h3><p>Diseño adaptable para teléfono, tableta y computadora.</p></article></div></div></section>
+<section id="pagos"><div class="container"><div class="section-head"><span class="eyebrow">FLEXIBILIDAD</span><h2>Métodos de <span class="gradient">pago</span></h2><p>Consulta por WhatsApp cuáles están disponibles para tu pedido.</p></div><div class="pay-grid"><div class="pay"><span>📲</span>Saldo móvil</div><div class="pay"><span>💳</span>Transferencia</div><div class="pay"><span>🇨🇺</span>CUP</div><div class="pay"><span>₮</span>USDT</div></div></div></section>
+<section><div class="container"><div class="section-head"><span class="eyebrow">CÓMO FUNCIONA</span><h2>Tu pedido en <span class="gradient">3 pasos</span></h2></div><div class="steps"><article class="step"><b class="gradient">PASO 01</b><h3>Elige tu producto</h3><p>Busca los diamantes, membresía o pase que deseas.</p></article><article class="step"><b class="gradient">PASO 02</b><h3>Consulta por WhatsApp</h3><p>Confirma precio, disponibilidad y método de pago.</p></article><article class="step"><b class="gradient">PASO 03</b><h3>Confirma tu pedido</h3><p>Conserva la confirmación de tu compra.</p></article></div></div></section>
+<section id="ayuda"><div class="container"><div class="section-head"><span class="eyebrow">CENTRO DE AYUDA</span><h2>Preguntas frecuentes</h2></div><div class="faq"><details><summary>¿Los precios aparecen en la página?</summary><p>Los productos aparecen con precio por confirmar. Escríbenos para recibir el precio actualizado antes de pagar.</p></details><details><summary>¿Qué información necesito para una recarga?</summary><p>Normalmente se solicita el ID de jugador y la región. No compartas tu contraseña ni códigos de acceso.</p></details><details><summary>¿Se realiza el cobro desde esta página?</summary><p>No. El pago se coordina después de confirmar los detalles por WhatsApp.</p></details></div></div></section>
+<section><div class="container"><div class="contact-box"><div><h2>¿Listo para hacer tu recarga?</h2><p>Escríbenos y consulta tu producto antes de pagar.</p></div><a class="btn" href="https://wa.me/5353689742?text=Hola%2C%20vengo%20de%20Carlos%20Play%20Recargas" target="_blank" rel="noopener">Contactar por WhatsApp ↗</a></div></section>
+</main>
+<footer><div class="container"><b>CARLOS PLAY RECARGAS</b><p>Tu espacio gamer para recargas de Free Fire.</p><div class="legal">© 2026 Carlos Play Recargas.Todos los derechos reservados.</div></div></footer>
+
+<div class="modal" id="authModal" role="dialog" aria-modal="true"><div class="dialog"><button class="close" id="closeAuth" type="button">×</button><span class="eyebrow">CARLOS PLAY</span><h2 id="authTitle">Bienvenido</h2><p id="authDesc">Accede a tu espacio de cliente.</p><div class="tabs"><button id="loginTab" class="active" type="button">Iniciar sesión</button><button id="registerTab" type="button">Registrarse</button></div><form id="authForm"><label class="field" id="usernameWrap" hidden>Nombre de usuario<input id="username" autocomplete="nickname" maxlength="40" placeholder="username"></label><label class="field">Correo electrónico<input id="email" type="email" autocomplete="email" required placeholder="correo@ejemplo.com"></label><label class="field">Contraseña<input id="password" type="password" autocomplete="current-password" minlength="8" required placeholder="Mínimo 8 caracteres"></label><label class="field" id="confirmWrap" hidden>Confirmar contraseña<input id="confirmPassword" type="password" minlength="8" placeholder="Repite la contraseña"></label><div class="message" id="authMessage" aria-live="polite"></div><button class="btn" id="authSubmit" style="width:100%" type="submit">Iniciar sesión</button></form><p class="note">La autenticación se gestiona mediante Supabase. No compartas tu contraseña con nadie.</p></div></div>
+<div class="modal" id="orderModal" role="dialog" aria-modal="true"><div class="dialog"><button class="close" id="closeOrder" type="button">×</button><span class="eyebrow">NUEVO PEDIDO</span><h2>Completa tu pedido</h2><p>Solo necesitamos tu ID de jugador. Nunca pediremos tu contraseña de Free Fire.</p><form id="orderForm"><label class="field">Producto<select id="orderProduct" required></select></label><label class="field">ID de jugador<input id="playerId" required maxlength="30" inputmode="numeric" placeholder="Tu ID de Free Fire"></label><label class="field">Región<input id="playerRegion" required maxlength="40" placeholder="N.A o E.U"></label><label class="field">Método de pago<select id="paymentMethod" required><option value="">Selecciona un método</option><option>Saldo móvil</option><option>Transferencia</option><option>CUP</option><option>USDT</option></select></label><div class="message" id="orderMessage" aria-live="polite"></div><button class="btn" id="orderSubmit" style="width:100%" type="submit">Guardar pedido</button></form><p class="note">El pedido queda pendiente. Esta página no cobra automáticamente.</p></div></div>
+<div class="modal" id="ordersModal" role="dialog" aria-modal="true"><div class="dialog"><button class="close" id="closeOrders" type="button">×</button><span class="eyebrow">TU CUENTA</span><h2>Mis pedidos</h2><div id="ordersList"></div></div></div>
+
+<!-- CARGA DE SUPABASE: primero la biblioteca y después el código de la tienda. -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+
+/* CONFIGURACIÓN: pega aquí la URL y la clave PUBLICABLE de Supabase.
+   Nunca uses la clave service_role en una página web. */
+const SUPABASE_URL = "https://alivyjgrbsmurhllaakj.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_6H98avZtep0yfRfaN75tmw_VKfHh0xc";
+let db = null;
+let currentUser = null;
+let mode = "login";
+
+const products = [
+ {name:"110 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 110 diamantes"},
+ {name:"341 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 341 diamantes"},
+ {name:"572 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 572 diamantes"},
+ {name:"1.166 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 1.166 diamantes"},
+ {name:"2.398 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 2.398 diamantes"},
+ {name:"6.160 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 6.160 diamantes"},
+ {name:"Membresía semanal",cat:"membresias",icon:"🎟️",detail:"Membresía semanal"},
+ {name:"Membresía mensual",cat:"membresias",icon:"👑",detail:"Membresía mensual"},
+ {name:"Pase Booyah",cat:"extras",icon:"🔥",detail:"Pase Booyah"}
+];
+
+const $ = id => document.getElementById(id);
+function showMessage(id, message, error=false){const el=$(id);el.textContent=message;el.classList.toggle("error",error);}
+function configured(){
+ return SUPABASE_URL.startsWith("https://") &&
+        SUPABASE_URL.includes(".supabase.co") &&
+        !SUPABASE_URL.includes("PEGA_AQUI") &&
+        SUPABASE_PUBLISHABLE_KEY.startsWith("sb_publishable_") &&
+        !SUPABASE_PUBLISHABLE_KEY.includes("PEGA_AQUI");
+}
+function initSupabase(){
+ if(!configured()) return;
+ if(!window.supabase || typeof window.supabase.createClient!=="function"){
+   console.error("No se pudo cargar la biblioteca de Supabase."); return;
+ }
+ try{db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);}
+ catch(error){console.error("Error al iniciar Supabase:",error);}
+}
+function renderProducts(filter="todos",query=""){
+ const list=products.filter(p=>(filter==="todos"||p.cat===filter)&&
+  (p.name+" "+p.detail).toLowerCase().includes(query.toLowerCase()));
+ $("products").innerHTML=list.length?list.map((p,i)=>`
+  <article class="product">
+   <div class="product-head"><div class="product-icon">${p.icon}</div><div><h3>${p.name}</h3><small>${p.detail}</small></div></div>
+   <div class="product-price">Precio por confirmar</div><div class="product-sub">Consulta disponibilidad</div>
+   <button class="btn buy-button" type="button" data-product="${products.indexOf(p)}">Solicitar producto</button>
+  </article>`).join(""):'<div class="empty">No encontramos ese producto.</div>';
+ document.querySelectorAll(".buy-button").forEach(btn=>btn.addEventListener("click",()=>openOrder(products[Number(btn.dataset.product)])));
+}
+function openModal(which="login"){
+ mode=which;updateAuthMode();showMessage("authMessage","");$("authModal").classList.add("show");
+}
+function closeModal(){$("authModal").classList.remove("show");}
+function updateAuthMode(){
+ const registering=mode==="register";
+ $("loginTab").classList.toggle("active",!registering);
+ $("registerTab").classList.toggle("active",registering);
+ $("usernameWrap").hidden=!registering;
+ $("confirmWrap").hidden=!registering;
+ $("username").required=registering;
+ $("confirmPassword").required=registering;
+ $("authTitle").textContent=registering?"Crea tu cuenta":"Bienvenido de nuevo";
+ $("authDesc").textContent=registering?"Regístrate para gestionar tus pedidos.":"Accede a tu espacio de cliente.";
+ $("authSubmit").textContent=registering?"Crear cuenta":"Iniciar sesión";
+ $("password").autocomplete=registering?"new-password":"current-password";
+ showMessage("authMessage","");
+}
+function updateAccountUI(){
+ const logged=!!currentUser;
+ $("loginButton").hidden=logged;
+ $("registerButton").hidden=logged;
+ $("heroRegister").hidden=logged;
+ $("ordersButton").hidden=!logged;
+ $("logoutButton").hidden=!logged;
+}
+async function refreshSession(){
+ if(!db){
+  currentUser=null;
+  updateAccountUI();
+  return;
+ }
+
+ const {data,error}=await db.auth.getSession();
+
+ if(error){
+  console.error(error);
+  return;
+ }
+
+ currentUser=data.session?.user||null;
+ updateAccountUI();
+
+ db.auth.onAuthStateChange((_event,session)=>{
+  currentUser=session?.user||null;
+  updateAccountUI();
+ });
+  }
+async function submitAuth(event){
+ event.preventDefault();
+ if(!db){showMessage("authMessage","Configura primero la URL y la clave pública de Supabase en este archivo.",true);return;}
+ const email=$("email").value.trim(),password=$("password").value;
+ const button=$("authSubmit");button.disabled=true;showMessage("authMessage","Procesando…");
+ try{
+  let result;
+  if(mode==="register"){
+   if($("username").value.trim().length<2)throw new Error("Escribe un nombre de usuario de al menos 2 caracteres.");
+   if(password!==$("confirmPassword").value)throw new Error("Las contraseñas no coinciden.");
+   result=await db.auth.signUp({email,password,options:{data:{username:$("username").value.trim()}}});
+   if(result.error)throw result.error;
+   if(result.data.session){currentUser=result.data.user;closeModal();updateAccountUI();alert("¡Cuenta creada correctamente!");}
+   else showMessage("authMessage","Cuenta creada. Revisa tu correo para confirmar el registro.");
+  }else{
+   result=await db.auth.signInWithPassword({email,password});
+   if(result.error)throw result.error;
+   currentUser=result.data.user;closeModal();updateAccountUI();
+  }
+ }catch(error){showMessage("authMessage",friendlyError(error),true);}
+ finally{button.disabled=false;}
+}
+function friendlyError(error){
+ const msg=error?.message||"Ocurrió un error.";
+ if(/Invalid login credentials/i.test(msg))return "Correo o contraseña incorrectos.";
+ if(/User already registered/i.test(msg))return "Ese correo ya está registrado. Inicia sesión.";
+ if(/Email not confirmed/i.test(msg))return "Confirma tu correo desde el mensaje que te envió Supabase.";
+ if(/Failed to fetch|fetch/i.test(msg))return "No se pudo conectar. Comprueba internet y la URL de Supabase.";
+ return msg;
+}
+async function logout(){
+ if(db){const {error}=await db.auth.signOut();if(error){alert(friendlyError(error));return;}}
+ currentUser=null;updateAccountUI();
+}
+function openOrder(product){
+ if(!currentUser){openModal("login");showMessage("authMessage","Inicia sesión para guardar un pedido.");return;}
+ $("orderProduct").innerHTML=products.map(p=>`<option value="${p.name}">${p.name}</option>`).join("");
+ if(product)$("orderProduct").value=product.name;
+ $("playerId").value="";showMessage("orderMessage","");$("orderModal").classList.add("show");
+}
+function closeOrder(){$("orderModal").classList.remove("show");}
+async function submitOrder(event){
+ event.preventDefault();
+ if(!currentUser){closeOrder();openModal("login");return;}
+ if(!db){showMessage("orderMessage","Configura Supabase antes de guardar pedidos.",true);return;}
+ const payload={
+  user_id:currentUser.id,
+  product_name:$("orderProduct").value,
+  player_id:$("playerId").value.trim(),
+  region:$("playerRegion").value.trim(),
+  payment_method:$("paymentMethod").value,
+  status:"pendiente"
+ };
+ if(!payload.player_id||!payload.region||!payload.payment_method){showMessage("orderMessage","Completa todos los campos.",true);return;}
+ const button=$("orderSubmit");button.disabled=true;showMessage("orderMessage","Guardando pedido…");
+ try{
+  const {error}=await db.from("orders").insert(payload);
+  if(error)throw error;
+  showMessage("orderMessage","¡Pedido guardado! Puedes verlo en Mis pedidos.");
+  setTimeout(()=>{closeOrder();openOrders();},900);
+ }catch(error){showMessage("orderMessage","No se pudo guardar: "+friendlyError(error)+" Comprueba que exista la tabla orders y sus políticas RLS.",true);}
+ finally{button.disabled=false;}
+}
+async function openOrders(){
+ if(!currentUser){openModal("login");return;}
+ $("ordersModal").classList.add("show");$("ordersList").innerHTML="<p>Cargando pedidos…</p>";
+ if(!db){$("ordersList").textContent="Configura Supabase para consultar tus pedidos.";return;}
+ try{
+  const {data,error}=await db.from("orders")
+.select("id,product_name,player_id,region,payment_method,status,created_at")
+    .eq("user_id",currentUser.id)
+   .order("created_at",{ascending:false})
+   .limit(50);
+  if(error)throw error;
+  $("ordersList").innerHTML=data.length?data.map(o=>`<div class="order-card"><b>${escapeHTML(o.product)}</b><small>ID: ${escapeHTML(o.player_id)} · Región: ${escapeHTML(o.region)}<br>Pago: ${escapeHTML(o.payment_method)} · Estado: ${escapeHTML(o.status)}<br>${o.created_at?new Date(o.created_at).toLocaleString("es-ES"):""}</small></div>`).join(""):"<p>Aún no tienes pedidos.</p>";
+ }catch(error){$("ordersList").textContent="No se pudieron cargar los pedidos. Comprueba la tabla orders y sus políticas RLS. "+friendlyError(error);}
+}
+function closeOrders(){$("ordersModal").classList.remove("show");}
+function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
+
+document.addEventListener("DOMContentLoaded",()=>{
+ renderProducts();
+ initSupabase();
+ refreshSession();
+ $("loginButton").addEventListener("click",()=>openModal("login"));
+ $("registerButton").addEventListener("click",()=>openModal("register"));
+ $("heroRegister").addEventListener("click",()=>openModal("register"));
+ $("closeAuth").addEventListener("click",closeModal);
+ $("loginTab").addEventListener("click",()=>{mode="login";updateAuthMode();});
+ $("registerTab").addEventListener("click",()=>{mode="register";updateAuthMode();});
+ $("authForm").addEventListener("submit",submitAuth);
+ $("logoutButton").addEventListener("click",logout);
+ $("ordersButton").addEventListener("click",openOrders);
+ $("closeOrder").addEventListener("click",closeOrder);
+ $("closeOrders").addEventListener("click",closeOrders);
+ $("orderForm").addEventListener("submit",submitOrder);
+ document.querySelectorAll(".filter").forEach(button=>button.addEventListener("click",()=>{
+  document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
+  button.classList.add("active");renderProducts(button.dataset.filter,$("search").value.trim());
+ }));
+ $("search").addEventListener("input",()=>renderProducts(document.querySelector(".filter.active").dataset.filter,$("search").value.trim()));
+ ["authModal","orderModal","ordersModal"].forEach(id=>$(id).addEventListener("click",event=>{if(event.target.id===id)$(id).classList.remove("show");}));
+ document.addEventListener("keydown",event=>{if(event.key==="Escape")document.querySelectorAll(".modal.show").forEach(m=>m.classList.remove("show"));});
+});
+</script>
+</body>
+</html>
