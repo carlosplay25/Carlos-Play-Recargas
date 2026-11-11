@@ -16,14 +16,25 @@ section{padding:58px 0}.catalog{background:linear-gradient(180deg,#0c1220,#090d1
 @media(max-width:560px){.nav{padding:10px 0;align-items:flex-start}.brand{font-size:12px}.nav-actions{gap:5px;justify-content:flex-end;flex-wrap:wrap}.nav-actions .btn{font-size:10px;padding:8px}.hero{padding:45px 0}.products,.benefits,.steps{grid-template-columns:1fr}.pay-grid{grid-template-columns:repeat(2,1fr)}.contact-box{align-items:flex-start;flex-direction:column}.search{width:100%}}
 [hidden] {
   display: none !important;
-}
+  }
 </style>
 </head>
 <body>
 <header><div class="container nav">
 <a class="brand" href="#inicio"><span class="brand-mark">💎</span><span>CARLOS <span>PLAY</span> RECARGAS</span></a>
 <nav class="links"><a href="#inicio">Inicio</a><a href="#catalogo">Catálogo</a><a href="#ventajas">Ventajas</a><a href="#pagos">Pagos</a><a href="#ayuda">Ayuda</a></nav>
-<div class="nav-actions"><button class="btn outline small" id="ordersButton" hidden type="button">Mis pedidos</button><button class="btn outline small" id="loginButton" type="button">Iniciar sesión</button><button class="btn small" id="registerButton" type="button">Crear cuenta</button><button class="btn outline small" id="logoutButton" hidden type="button">Salir</button></div>
+
+<div class="nav-actions">
+ <select id="priceMethodSelect" class="btn outline small">
+  <option value="saldo">📱 Saldo Móvil</option>
+  <option value="transferencia">💳 Transferencia</option>
+ </select>
+ <button class="btn outline small" id="ordersButton" hidden type="button">Mis pedidos</button>
+ <button class="btn small" id="adminButton" hidden type="button">👑 Administrador</button>
+ <button class="btn outline small" id="loginButton" type="button">Iniciar sesión</button>
+ <button class="btn small" id="registerButton" type="button">Crear cuenta</button>
+ <button class="btn outline small" id="logoutButton" hidden type="button">Salir</button>
+</div>
 </div></header>
 <main>
 <section class="hero" id="inicio"><div class="container hero-grid"><div><span class="eyebrow">⚡ TU TIENDA GAMER</span><h1>Recarga y vuelve<br>a la <span class="gradient">acción.</span></h1><p>Bienvenido a Carlos Play Recargas . Explora productos de Free Fire, consulta disponibilidad y solicita tu pedido fácilmente.</p><div class="hero-buttons"><a class="btn" href="#catalogo">💎 Explorar catálogo</a><button class="btn outline" id="heroRegister" type="button">Crear mi cuenta →</button></div><div class="trust"><span>Atención personalizada</span><span>Pedidos por WhatsApp</span><span>Diseño móvil</span></div></div><div class="hero-art"><div class="orb"></div><div class="diamond">💎</div><div class="art-caption">CARLOS PLAY • RECARGAS GAMER</div></div></div></section>
@@ -39,6 +50,14 @@ section{padding:58px 0}.catalog{background:linear-gradient(180deg,#0c1220,#090d1
 <div class="modal" id="authModal" role="dialog" aria-modal="true"><div class="dialog"><button class="close" id="closeAuth" type="button">×</button><span class="eyebrow">CARLOS PLAY</span><h2 id="authTitle">Bienvenido</h2><p id="authDesc">Accede a tu espacio de cliente.</p><div class="tabs"><button id="loginTab" class="active" type="button">Iniciar sesión</button><button id="registerTab" type="button">Registrarse</button></div><form id="authForm"><label class="field" id="usernameWrap" hidden>Nombre de usuario<input id="username" autocomplete="nickname" maxlength="40" placeholder="username"></label><label class="field">Correo electrónico<input id="email" type="email" autocomplete="email" required placeholder="correo@ejemplo.com"></label><label class="field">Contraseña<input id="password" type="password" autocomplete="current-password" minlength="8" required placeholder="Mínimo 8 caracteres"></label><label class="field" id="confirmWrap" hidden>Confirmar contraseña<input id="confirmPassword" type="password" minlength="8" placeholder="Repite la contraseña"></label><div class="message" id="authMessage" aria-live="polite"></div><button class="btn" id="authSubmit" style="width:100%" type="submit">Iniciar sesión</button></form><p class="note">La autenticación se gestiona mediante Supabase. No compartas tu contraseña con nadie.</p></div></div>
 <div class="modal" id="orderModal" role="dialog" aria-modal="true"><div class="dialog"><button class="close" id="closeOrder" type="button">×</button><span class="eyebrow">NUEVO PEDIDO</span><h2>Completa tu pedido</h2><p>Solo necesitamos tu ID de jugador. Nunca pediremos tu contraseña de Free Fire.</p><form id="orderForm"><label class="field">Producto<select id="orderProduct" required></select></label><label class="field">ID de jugador<input id="playerId" required maxlength="30" inputmode="numeric" placeholder="Tu ID de Free Fire"></label><label class="field">Región<input id="playerRegion" required maxlength="40" placeholder="N.A o E.U"></label><label class="field">Método de pago<select id="paymentMethod" required><option value="">Selecciona un método</option><option>Saldo móvil</option><option>Transferencia</option><option>CUP</option><option>USDT</option></select></label><div class="message" id="orderMessage" aria-live="polite"></div><button class="btn" id="orderSubmit" style="width:100%" type="submit">Guardar pedido</button></form><p class="note">El pedido queda pendiente. Esta página no cobra automáticamente.</p></div></div>
 <div class="modal" id="ordersModal" role="dialog" aria-modal="true"><div class="dialog"><button class="close" id="closeOrders" type="button">×</button><span class="eyebrow">TU CUENTA</span><h2>Mis pedidos</h2><div id="ordersList"></div></div></div>
+  <div class="modal" id="adminModal" role="dialog" aria-modal="true">
+ <div class="dialog">
+  <button class="close" id="closeAdmin" type="button">×</button>
+  <span class="eyebrow">CARLOS PLAY</span>
+  <h2>👑 Panel de Administrador</h2>
+  <div id="adminContent"></div>
+ </div>
+  </div>
 
 <!-- CARGA DE SUPABASE: primero la biblioteca y después el código de la tienda. -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -51,18 +70,20 @@ const SUPABASE_URL = "https://alivyjgrbsmurhllaakj.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_6H98avZtep0yfRfaN75tmw_VKfHh0xc";
 let db = null;
 let currentUser = null;
+let isAdmin = false;
 let mode = "login";
 
+
 const products = [
- {name:"110 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 110 diamantes"},
- {name:"341 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 341 diamantes"},
- {name:"572 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 572 diamantes"},
- {name:"1.166 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 1.166 diamantes"},
- {name:"2.398 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 2.398 diamantes"},
- {name:"6.160 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 6.160 diamantes"},
- {name:"Membresía semanal",cat:"membresias",icon:"🎟️",detail:"Membresía semanal"},
- {name:"Membresía mensual",cat:"membresias",icon:"👑",detail:"Membresía mensual"},
- {name:"Pase Booyah",cat:"extras",icon:"🔥",detail:"Pase Booyah"}
+ {name:"110 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 110 diamantes",saldo:"350",transferencia:"1.000"},
+ {name:"341 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 341 diamantes",saldo:"950",transferencia:"3.000"},
+ {name:"572 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 572 diamantes",saldo:"1.600",transferencia:"5.000"},
+ {name:"1.166 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 1.166 diamantes",saldo:"2.950",transferencia:"10.000"},
+ {name:"2.398 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 2.398 diamantes",saldo:"5.800",transferencia:"19.000"},
+ {name:"6.160 Diamantes",cat:"diamantes",icon:"💎",detail:"Paquete de 6.160 diamantes",saldo:"14.700",transferencia:"46.500"},
+ {name:"Membresía semanal",cat:"membresias",icon:"🎟️",detail:"Membresía semanal",saldo:"950",transferencia:"2.900"},
+ {name:"Membresía mensual",cat:"membresias",icon:"👑",detail:"Membresía mensual",saldo:"4.440",transferencia:"14.850"},
+ {name:"Pase Booyah",cat:"extras",icon:"🔥",detail:"Pase Booyah",saldo:"1.650",transferencia:"5.200"}
 ];
 
 const $ = id => document.getElementById(id);
@@ -82,16 +103,33 @@ function initSupabase(){
  try{db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);}
  catch(error){console.error("Error al iniciar Supabase:",error);}
 }
+let priceMethod = "saldo";
+
 function renderProducts(filter="todos",query=""){
  const list=products.filter(p=>(filter==="todos"||p.cat===filter)&&
   (p.name+" "+p.detail).toLowerCase().includes(query.toLowerCase()));
- $("products").innerHTML=list.length?list.map((p,i)=>`
+
+ $("products").innerHTML=list.length?list.map(p=>`
   <article class="product">
-   <div class="product-head"><div class="product-icon">${p.icon}</div><div><h3>${p.name}</h3><small>${p.detail}</small></div></div>
-   <div class="product-price">Precio por confirmar</div><div class="product-sub">Consulta disponibilidad</div>
-   <button class="btn buy-button" type="button" data-product="${products.indexOf(p)}">Solicitar producto</button>
+   <div class="product-head">
+    <div class="product-icon">${p.icon}</div>
+    <div><h3>${p.name}</h3><small>${p.detail}</small></div>
+   </div>
+   <div class="product-price">
+    ${priceMethod==="saldo"?p.saldo+" 📲":p.transferencia+" 💳"}
+   </div>
+   <div class="product-sub">
+    ${priceMethod==="saldo"?"Saldo móvil":"Transferencia"}
+   </div>
+   <button class="btn buy-button" type="button"
+    data-product="${products.indexOf(p)}">
+    Solicitar producto
+   </button>
   </article>`).join(""):'<div class="empty">No encontramos ese producto.</div>';
- document.querySelectorAll(".buy-button").forEach(btn=>btn.addEventListener("click",()=>openOrder(products[Number(btn.dataset.product)])));
+
+ document.querySelectorAll(".buy-button").forEach(btn=>
+  btn.addEventListener("click",()=>openOrder(products[Number(btn.dataset.product)]))
+ );
 }
 function openModal(which="login"){
  mode=which;updateAuthMode();showMessage("authMessage","");$("authModal").classList.add("show");
@@ -118,10 +156,37 @@ function updateAccountUI(){
  $("heroRegister").hidden=logged;
  $("ordersButton").hidden=!logged;
  $("logoutButton").hidden=!logged;
+ $("adminButton").hidden=!isAdmin;
 }
+async function checkAdmin(){
+ isAdmin = false;
+
+ if(!currentUser || !db){
+  updateAccountUI();
+  return;
+ }
+
+ try{
+  const {data,error}=await db
+      .from("admin_users")
+   .select("user_id")
+   .eq("user_id",currentUser.id)
+   .maybeSingle();
+
+  if(error) throw error;
+
+  isAdmin=!!data;
+ }catch(error){
+  console.error("Error comprobando administrador:",error);
+  isAdmin=false;
+ }
+
+ updateAccountUI();
+   }
 async function refreshSession(){
  if(!db){
   currentUser=null;
+  isAdmin=false;
   updateAccountUI();
   return;
  }
@@ -134,11 +199,12 @@ async function refreshSession(){
  }
 
  currentUser=data.session?.user||null;
+ await checkAdmin();
  updateAccountUI();
 
  db.auth.onAuthStateChange((_event,session)=>{
   currentUser=session?.user||null;
-  updateAccountUI();
+  checkAdmin();
  });
   }
 async function submitAuth(event){
@@ -182,10 +248,21 @@ function openOrder(product){
  $("playerId").value="";showMessage("orderMessage","");$("orderModal").classList.add("show");
 }
 function closeOrder(){$("orderModal").classList.remove("show");}
+
 async function submitOrder(event){
  event.preventDefault();
- if(!currentUser){closeOrder();openModal("login");return;}
- if(!db){showMessage("orderMessage","Configura Supabase antes de guardar pedidos.",true);return;}
+  
+ if(!currentUser){
+  closeOrder();
+  openModal("login");
+  return;
+ }
+
+ if(!db){
+  showMessage("orderMessage","Configura Supabase antes de guardar pedidos.",true);
+  return;
+ }
+
  const payload={
   user_id:currentUser.id,
   product_name:$("orderProduct").value,
@@ -194,17 +271,91 @@ async function submitOrder(event){
   payment_method:$("paymentMethod").value,
   status:"pendiente"
  };
- if(!payload.player_id||!payload.region||!payload.payment_method){showMessage("orderMessage","Completa todos los campos.",true);return;}
- const button=$("orderSubmit");button.disabled=true;showMessage("orderMessage","Guardando pedido…");
+
+ if(!payload.player_id || !payload.region || !payload.payment_method){
+  showMessage("orderMessage","Completa todos los campos.",true);
+  return;
+ }
+
+ const button=$("orderSubmit");
+ button.disabled=true;
+ showMessage("orderMessage","Guardando pedido…");
+
  try{
   const {error}=await db.from("orders").insert(payload);
-  if(error)throw error;
-  showMessage("orderMessage","¡Pedido guardado! Puedes verlo en Mis pedidos.");
-  setTimeout(()=>{closeOrder();openOrders();},900);
- }catch(error){showMessage("orderMessage","No se pudo guardar: "+friendlyError(error)+" Comprueba que exista la tabla orders y sus políticas RLS.",true);}
- finally{button.disabled=false;}
+
+  if(error) throw error;
+
+  const mensaje=
+`🎮 NUEVO PEDIDO - CUBA PLAY RECARGAS
+
+👤 Cliente: ${currentUser.email}
+💎 Producto: ${payload.product_name}
+🆔 ID de jugador: ${payload.player_id}
+🌎 Región: ${payload.region}
+💳 Pago: ${payload.payment_method}
+📌 Estado: Pendiente`;
+
+  showMessage("orderMessage","¡Pedido guardado! Abriendo WhatsApp…");
+
+  const whatsappURL=
+   "https://wa.me/5353689742?text="+encodeURIComponent(mensaje);
+
+  setTimeout(()=>{
+   window.location.href=whatsappURL;
+  },800);
+
+ }catch(error){
+  showMessage(
+   "orderMessage",
+   "No se pudo guardar: "+friendlyError(error),
+   true
+  );
+ }finally{
+  button.disabled=false;
+ }
 }
-async function openOrders(){
+
+async function openAdminPanel(){
+ if(!currentUser || !isAdmin){
+  alert("No tienes permisos de administrador.");
+  return;
+ }
+
+ const {data,error}=await db
+  .from("orders")
+  .select("*")
+  .order("created_at",{ascending:false});
+
+ if(error){
+  alert("Error cargando pedidos: "+friendlyError(error));
+  return;
+   }
+  
+ let html="<h2>👑 Panel de Administrador</h2>";
+
+ if(!data.length){
+  html+="<p>No hay pedidos todavía.</p>";
+ }else{
+  data.forEach(o=>{
+   html+=`
+    <div class="order-card">
+     <b>${escapeHTML(o.product_name)}</b>
+     <p>ID: ${escapeHTML(o.player_id)}</p>
+     <p>Estado: ${escapeHTML(o.status)}</p>
+     <select onchange="changeOrderStatus('${o.id}',this.value)">
+      <option value="pendiente">Pendiente</option>
+      <option value="completado">Completada</option>
+      <option value="cancelado">Cancelada</option>
+     </select>
+    </div>`;
+  });
+ }
+
+ $("adminContent").innerHTML=html;
+ $("adminModal").classList.add("show");
+}
+ async function openOrders(){
  if(!currentUser){openModal("login");return;}
  $("ordersModal").classList.add("show");$("ordersList").innerHTML="<p>Cargando pedidos…</p>";
  if(!db){$("ordersList").textContent="Configura Supabase para consultar tus pedidos.";return;}
@@ -215,14 +366,41 @@ async function openOrders(){
    .order("created_at",{ascending:false})
    .limit(50);
   if(error)throw error;
-  $("ordersList").innerHTML=data.length?data.map(o=>`<div class="order-card"><b>${escapeHTML(o.product)}</b><small>ID: ${escapeHTML(o.player_id)} · Región: ${escapeHTML(o.region)}<br>Pago: ${escapeHTML(o.payment_method)} · Estado: ${escapeHTML(o.status)}<br>${o.created_at?new Date(o.created_at).toLocaleString("es-ES"):""}</small></div>`).join(""):"<p>Aún no tienes pedidos.</p>";
+  $("ordersList").innerHTML=data.length?data.map(o=>`<div class="order-card"><b>${escapeHTML(o.product_name)}</b><small>ID: ${escapeHTML(o.player_id)} · Región: ${escapeHTML(o.region)}<br>Pago: ${escapeHTML(o.payment_method)} · Estado: ${escapeHTML(o.status)}<br>${o.created_at?new Date(o.created_at).toLocaleString("es-ES"):""}</small></div>`).join(""):"<p>Aún no tienes pedidos.</p>";
  }catch(error){$("ordersList").textContent="No se pudieron cargar los pedidos. Comprueba la tabla orders y sus políticas RLS. "+friendlyError(error);}
 }
-function closeOrders(){$("ordersModal").classList.remove("show");}
+async function changeOrderStatus(orderId,newStatus){
+ if(!currentUser || !isAdmin){
+  alert("No tienes permisos.");
+  return;
+ }
+
+ const allowed=["pendiente","completado","cancelado"];
+
+ if(!allowed.includes(newStatus)) return;
+
+ const {error}=await db
+  .from("orders")
+  .update({status:newStatus})
+  .eq("id",orderId);
+
+ if(error){
+  alert("No se pudo actualizar: "+friendlyError(error));
+  return;
+ }
+  
+ alert("¡Estado del pedido actualizado!");
+ await openAdminPanel();
+  }
+  function closeOrders(){$("ordersModal").classList.remove("show");}
 function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));}
 
 document.addEventListener("DOMContentLoaded",()=>{
  renderProducts();
+ $("priceMethodSelect").addEventListener("change",(event)=>{
+ priceMethod=event.target.value;
+ renderProducts();
+});
  initSupabase();
  refreshSession();
  $("loginButton").addEventListener("click",()=>openModal("login"));
@@ -234,15 +412,19 @@ document.addEventListener("DOMContentLoaded",()=>{
  $("authForm").addEventListener("submit",submitAuth);
  $("logoutButton").addEventListener("click",logout);
  $("ordersButton").addEventListener("click",openOrders);
+ $("adminButton").addEventListener("click",openAdminPanel);
  $("closeOrder").addEventListener("click",closeOrder);
  $("closeOrders").addEventListener("click",closeOrders);
- $("orderForm").addEventListener("submit",submitOrder);
+ $("closeAdmin").addEventListener("click",()=>{
+ $("adminModal").classList.remove("show");
+});
+  $("orderForm").addEventListener("submit",submitOrder);
  document.querySelectorAll(".filter").forEach(button=>button.addEventListener("click",()=>{
   document.querySelectorAll(".filter").forEach(b=>b.classList.remove("active"));
   button.classList.add("active");renderProducts(button.dataset.filter,$("search").value.trim());
  }));
  $("search").addEventListener("input",()=>renderProducts(document.querySelector(".filter.active").dataset.filter,$("search").value.trim()));
- ["authModal","orderModal","ordersModal"].forEach(id=>$(id).addEventListener("click",event=>{if(event.target.id===id)$(id).classList.remove("show");}));
+ ["authModal","orderModal","ordersModal","adminModal"].forEach(id=>$(id).addEventListener("click",event=>{if(event.target.id===id)$(id).classList.remove("show");}));
  document.addEventListener("keydown",event=>{if(event.key==="Escape")document.querySelectorAll(".modal.show").forEach(m=>m.classList.remove("show"));});
 });
 </script>
